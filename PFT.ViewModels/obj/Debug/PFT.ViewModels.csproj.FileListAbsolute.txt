@@ -1,0 +1,9 @@
+C:\My Projects\PFT\PFT.ViewModels\bin\Debug\PFT.ViewModels.dll
+C:\My Projects\PFT\PFT.ViewModels\bin\Debug\PFT.ViewModels.pdb
+C:\My Projects\PFT\PFT.ViewModels\bin\Debug\PFT.Base.Data.dll
+C:\My Projects\PFT\PFT.ViewModels\bin\Debug\PFT.Base.dll
+C:\My Projects\PFT\PFT.ViewModels\bin\Debug\PFT.Base.Data.pdb
+C:\My Projects\PFT\PFT.ViewModels\bin\Debug\PFT.Base.pdb
+C:\My Projects\PFT\PFT.ViewModels\obj\Debug\ResolveAssemblyReference.cache
+C:\My Projects\PFT\PFT.ViewModels\obj\Debug\PFT.ViewModels.dll
+C:\My Projects\PFT\PFT.ViewModels\obj\Debug\PFT.ViewModels.pdb

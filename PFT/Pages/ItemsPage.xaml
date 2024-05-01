@@ -1,0 +1,107 @@
+﻿<Page x:Class="PFT.Pages.ItemsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" d:DesignHeight="431" d:DesignWidth="700"
+	Title="Items">
+
+    <Grid Height="431">
+        <Label Content="ITEMS" Margin="15,0,0,0" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+
+        <Label Content="Id" Height="28" HorizontalAlignment="Left" Margin="10,29,0,0" Name="label1" VerticalAlignment="Top" />
+        <TextBox Text="{Binding Path=CurrentItem.Id}" Height="23" HorizontalAlignment="Left" Margin="88,31,0,0" Name="txtItemId" VerticalAlignment="Top" Width="120" />
+        <Label Content="Name" Height="28" HorizontalAlignment="Left" Margin="10,66,0,0" Name="label2" VerticalAlignment="Top" />
+        <TextBox Text="{Binding Path=CurrentItem.Name}" Height="23" HorizontalAlignment="Left" Margin="88,68,0,0" Name="txtItemName" VerticalAlignment="Top" Width="120" />
+        <Label Content="Description" Height="28" HorizontalAlignment="Left" Margin="10,103,0,0" Name="label3" VerticalAlignment="Top" />
+        <TextBox Text="{Binding Path=CurrentItem.Description}" Height="23" HorizontalAlignment="Left" Margin="88,105,0,0" Name="txtItemDescription" VerticalAlignment="Top" Width="120" />
+        <Label Content="Default Price" Height="28" HorizontalAlignment="Left" Margin="10,140,0,0" Name="label4" VerticalAlignment="Top" />
+        <TextBox Text="{Binding Path=CurrentItem.DefaultPrice}" Height="23" HorizontalAlignment="Left" Margin="88,142,0,0" Name="txtDefaultPrice" VerticalAlignment="Top" Width="120" />
+        <Label Content="Budget" Height="28" HorizontalAlignment="Left" Margin="10,174,0,0" Name="lblBudget" VerticalAlignment="Top" />
+        <TextBox Text="{Binding Path=CurrentItem.Budget}" Height="23" HorizontalAlignment="Left" Margin="88,175,0,0" Name="txtBudget" VerticalAlignment="Top" Width="120" />
+        <!--<CheckBox Content="Just Want It!" IsChecked="{Binding Path=CurrentItem.JustWantIt}" Height="19" HorizontalAlignment="Left" Margin="88,210,0,0" Name="chkJustWantIt" VerticalAlignment="Top" Width="106" />-->
+        <RadioButton Content="Need it" IsChecked="{Binding Path=CurrentItem.NeedIt}" Height="19" Margin="82,210,562,0" Name="optNeedIt" VerticalAlignment="Top" GroupName="NeedItWantIt" />
+        <RadioButton Content="Not Needed" IsChecked="{Binding Path=CurrentItem.NotNeeded}" Height="19" HorizontalAlignment="Left" Margin="137,210,0,0" Name="optNotNeeded" VerticalAlignment="Top" Width="72" GroupName="NeedItWantIt" />
+
+        <Button Content="Save Item" Command="{Binding SaveItem_ClickCommand}" Height="27" HorizontalAlignment="Left" Name="btnSaveItem" VerticalAlignment="Top" Width="106" Margin="19,276,0,0" />
+        <Button Content="New Item" Height="27" HorizontalAlignment="Left" Margin="138,276,0,0" Name="btnNewItem" VerticalAlignment="Top" Width="106" Command="{Binding NewItem_ClickCommand}" />
+
+        <GroupBox Header="Auto Insert" Height="134" HorizontalAlignment="Left" Margin="270,245,0,0" Name="groupBox1" VerticalAlignment="Top" Width="418">
+            <Grid Height="127" Width="407">
+                <Label Content="day" Height="28" HorizontalAlignment="Left" Margin="331,75,0,0" Name="label6" VerticalAlignment="Top" />
+                <RadioButton Content="None.  I'll manually insert it each time." GroupName="RepeatPeriod" Height="16" HorizontalAlignment="Left" Margin="10,15,0,0" Name="radioButton1" VerticalAlignment="Top" IsChecked="True" />
+                <RadioButton Content="Every Week until the end of the year on" Height="16" HorizontalAlignment="Left" Margin="10,48,0,0" Name="rbRepeatWeekly" VerticalAlignment="Top" GroupName="RepeatPeriod" Width="273" />
+                <RadioButton Content="Insert every month until the end of the year on the  " Height="16" HorizontalAlignment="Left" Margin="10,80,0,0" Name="rbRepeatMonthly" VerticalAlignment="Top" GroupName="RepeatPeriod" Width="273" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="281,76,0,0" Name="cboMonthlyDay" VerticalAlignment="Top" Width="45">
+                    <ComboBoxItem />
+                    <ComboBoxItem Content="1" />
+                    <ComboBoxItem Content="2" />
+                    <ComboBoxItem Content="3" />
+                    <ComboBoxItem Content="4" />
+                    <ComboBoxItem Content="5" />
+                    <ComboBoxItem Content="6" />
+                    <ComboBoxItem Content="7" />
+                    <ComboBoxItem Content="8" />
+                    <ComboBoxItem Content="9" />
+                    <ComboBoxItem Content="10" />
+                    <ComboBoxItem Content="11" />
+                    <ComboBoxItem Content="12" />
+                    <ComboBoxItem Content="13" />
+                    <ComboBoxItem Content="14" />
+                    <ComboBoxItem Content="15" />
+                    <ComboBoxItem Content="16" />
+                    <ComboBoxItem Content="17" />
+                    <ComboBoxItem Content="18" />
+                    <ComboBoxItem Content="19" />
+                    <ComboBoxItem Content="20" />
+                    <ComboBoxItem Content="21" />
+                    <ComboBoxItem Content="22" />
+                    <ComboBoxItem Content="23" />
+                    <ComboBoxItem Content="24" />
+                    <ComboBoxItem Content="25" />
+                    <ComboBoxItem Content="26" />
+                    <ComboBoxItem Content="27" />
+                    <ComboBoxItem Content="28" />
+                </ComboBox>
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="223,45,0,0" Name="comboBox1" VerticalAlignment="Top" Width="103">
+                    <ComboBoxItem />
+                    <ComboBoxItem Content="Monday" />
+                    <ComboBoxItem Content="Tuesday" />
+                    <ComboBoxItem Content="Wednesday" />
+                    <ComboBoxItem Content="Thursday" />
+                    <ComboBoxItem Content="Friday" />
+                    <ComboBoxItem Content="Saturday" />
+                    <ComboBoxItem Content="Sunday" />
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+        
+        <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding CurrentItem}" Height="199" HorizontalAlignment="Left" Margin="215,30,0,0" Name="listBox1" VerticalAlignment="Top" Width="200">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Name}" />
+                        <TextBlock Text="{Binding Path=Description}" Padding="10 0" />
+                        <TextBlock Text="{Binding Path=DefaultPrice}" Padding="10 0" />
+                        <TextBlock Text="{Binding Path=IsIncome}" />
+                        <!--<CheckBox IsChecked="{Binding Deleted, Mode=TwoWay}"/>-->
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <ListBox ItemsSource="{Binding Tags}" SelectedItem="{Binding CurrentTag}" Height="135" HorizontalAlignment="Left" Margin="472,31,0,0" Name="lstTags" VerticalAlignment="Top" Width="170">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Path=Name}" />
+                        <TextBlock Text="{Binding Path=Description}" />
+                        <!--<CheckBox IsChecked="{Binding Deleted, Mode=TwoWay}"/>-->
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Label Content="Default Tags" Height="28" HorizontalAlignment="Left" Margin="472,9,0,0" Name="label7" VerticalAlignment="Top" />
+    </Grid>
+</Page>

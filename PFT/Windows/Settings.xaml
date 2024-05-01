@@ -1,0 +1,24 @@
+﻿<Window x:Class="PFT.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Height="300" Width="531">
+    <Grid>
+        <ListBox ItemsSource="{Binding Settings}" SelectedItem="{Binding CurrentSetting}" Height="247" HorizontalAlignment="Left" Margin="12,2,0,0" Name="listBox1" VerticalAlignment="Top" Width="207">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Id}" />
+                        <TextBlock Text="{Binding Path=Key}" Padding="5,0" OverridesDefaultStyle="True" />
+                        <TextBlock Text="{Binding Path=Value}" />
+                        <!--<CheckBox IsChecked="{Binding Deleted, Mode=TwoWay}"/>-->
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Content="Key" Height="28" HorizontalAlignment="Left" Margin="240,12,0,0" Name="label1" VerticalAlignment="Top" />
+        <TextBox Text="{Binding Path=CurrentSetting.Key}" Height="23" HorizontalAlignment="Right" Margin="0,12,95,0" Name="txtSettingKey" VerticalAlignment="Top" Width="120" />
+        <Label Content="Value" Height="28" HorizontalAlignment="Left" Margin="240,50,0,0" Name="label2" VerticalAlignment="Top" />
+        <TextBox Text="{Binding Path=CurrentSetting.Value}" Height="23" HorizontalAlignment="Right" Margin="0,50,95,0" Name="txtSettingValue" VerticalAlignment="Top" Width="120" />
+        <Button Content="Save" Command="{Binding SaveSetting_ClickCommand}" Height="23" HorizontalAlignment="Left" Margin="339,91,0,0" Name="btnSaveSetting" VerticalAlignment="Top" Width="75" />
+    </Grid>
+</Window>

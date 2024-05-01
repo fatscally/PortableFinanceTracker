@@ -1,0 +1,14 @@
+Header checksum is valid.
+Source      : E:\Dropbox\Visual Studio Projects\PFT\PFT\PFT\PTF.sdf
+Destination : n/a
+Verifying - verMajor: 4, verMinor: 0, verBuild: 8876, verPoint: 1
+Time - 2016-14-12 18:43:05.398
+
+ All Pages have valid checksum.
+Parse the db file and build list of tables ... DONE.
+Cleanup Page list ... DONE.
+Scan bad pages ... DONE.
+Parse SysObjects table ... DONE.
+Copy Tables ... DONE.
+Verify Indices ... DONE.
+

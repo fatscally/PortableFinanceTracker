@@ -1,0 +1,6 @@
+C:\Work\PFT\PFT.Base\bin\Debug\PFT.Base.dll
+C:\Work\PFT\PFT.Base\bin\Debug\PFT.Base.pdb
+C:\Work\PFT\PFT.Base\obj\Debug\PFT.Base.csprojAssemblyReference.cache
+C:\Work\PFT\PFT.Base\obj\Debug\PFT.Base.csproj.CoreCompileInputs.cache
+C:\Work\PFT\PFT.Base\obj\Debug\PFT.Base.dll
+C:\Work\PFT\PFT.Base\obj\Debug\PFT.Base.pdb

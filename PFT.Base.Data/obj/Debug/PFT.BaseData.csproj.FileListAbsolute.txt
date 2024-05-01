@@ -1,0 +1,17 @@
+C:\Work\PFT\PFT.Base.Data\obj\Debug\PFT.BaseData.csproj.CoreCompileInputs.cache
+C:\Work\PFT\PFT.Base.Data\bin\Debug\PFT.Base.Data.dll.config
+C:\Work\PFT\PFT.Base.Data\bin\Debug\PFT.Base.Data.dll
+C:\Work\PFT\PFT.Base.Data\bin\Debug\PFT.Base.Data.pdb
+C:\Work\PFT\PFT.Base.Data\bin\Debug\EntityFramework.dll
+C:\Work\PFT\PFT.Base.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Work\PFT\PFT.Base.Data\bin\Debug\PFT.Base.dll
+C:\Work\PFT\PFT.Base.Data\bin\Debug\System.Data.SQLite.dll
+C:\Work\PFT\PFT.Base.Data\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Work\PFT\PFT.Base.Data\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Work\PFT\PFT.Base.Data\bin\Debug\PFT.Base.pdb
+C:\Work\PFT\PFT.Base.Data\bin\Debug\EntityFramework.xml
+C:\Work\PFT\PFT.Base.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Work\PFT\PFT.Base.Data\bin\Debug\System.Data.SQLite.xml
+C:\Work\PFT\PFT.Base.Data\obj\Debug\PFT.BaseData.csproj.CopyComplete
+C:\Work\PFT\PFT.Base.Data\obj\Debug\PFT.Base.Data.dll
+C:\Work\PFT\PFT.Base.Data\obj\Debug\PFT.Base.Data.pdb

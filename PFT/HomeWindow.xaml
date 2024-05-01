@@ -1,0 +1,43 @@
+﻿<Window x:Class="PFT.HomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Home Window" Height="450" Width="750">
+    <!--xmlns:wpf="clr-namespace:PFT.WpfUtils;assembly=PFT"-->
+    <!--<Window.Resources>
+        <wpf:CommandConverter x:Key="_commandConv"/>
+    </Window.Resources>-->
+    
+    <Window.Resources>
+        <Style  TargetType="{x:Type ListBoxItem}">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="#19f39611"></Setter>
+                </Trigger>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#19000000"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Menu Height="23" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="200" >
+            <MenuItem Header="Edit">
+                <MenuItem Header="New Transaction" Click="mnuTransactionNew_Click" />
+                <MenuItem Header="Tags" Click="mnuTags_Click" />
+                <MenuItem Header="Items" Click="mnuItems_Click" />
+                <MenuItem Header="Suppliers" Click="mnuSuppliers_Click" />
+                <MenuItem Header="Tag Groups" Click="mnuTagGroups_Click" />
+                <MenuItem Header="Payment Types" Click="mnuPaymentTypes_Click" />
+            </MenuItem>
+            <MenuItem Header="Utilities">
+                <MenuItem Header="Run Create Table Script" Click="mnuCreateTable_Click" />
+            </MenuItem>            
+        </Menu>
+        <DockPanel Margin="0,0,0,0">
+            <Frame x:Name="_NavigationFrame" NavigationUIVisibility="Hidden" Height="383" />
+        </DockPanel>
+        
+    </Grid>
+
+</Window>
