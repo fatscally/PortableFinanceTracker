@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\ray\Source\Repos\PortableFinanceTracker\PFT\obj\x86\Debug\
+C:\Users\mrray\Source\Repos\PortableFinanceTracker\PFT\obj\x86\Debug\
 PFT
 none
 false
 DEBUG;TRACE
-C:\Users\ray\Source\Repos\PortableFinanceTracker\PFT\App.xaml
-101478968753
-12124927049
-29-939348710
-137251615267
+C:\Users\mrray\Source\Repos\PortableFinanceTracker\PFT\App.xaml
+101745200545
+1128551713
+30-526499306
+1371841171987
 HomeWindow.xaml;Pages\ItemsPage.xaml;Pages\PaymentTypes.xaml;Pages\Settings.xaml;Pages\TagGroups.xaml;Pages\Tags.xaml;Pages\TraderMaintenance.xaml;Pages\Suppliers.xaml;Pages\Transactions.xaml;Pages\TagMaintenance.xaml;
 
 False
