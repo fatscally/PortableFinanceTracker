@@ -1,7 +1,7 @@
 ﻿using System;
 using PFT.Base;
 using PFT.Interfaces;
-using System.Data.SqlServerCe;
+using System.Data.SQLite;
 
 namespace PFT.Data
 {
@@ -14,19 +14,19 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM Tags";
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
                     Tag tag = new Tag();
-                    tag.Id = reader.GetInt32(0); //Id
+                    tag.Id = int.Parse(reader["Id"].ToString());
                     tag.Name = reader["Name"].ToString();
                     tag.Description = reader["Description"].ToString();
-                    tag.ParentTagId = reader.GetInt32(3); //ParentTagId
-                    
+                    tag.ParentTagId = int.Parse(reader["ParentTagId"].ToString());
+                    tag.Budget = float.Parse(reader["Budget"].ToString());
                     
                     returnCol.Add(tag);
                 }
@@ -56,10 +56,10 @@ namespace PFT.Data
                 foreach (Transaction_Tag tt in ttc)
                 {
 
-                    SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                    SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                     cmd.CommandText = "SELECT * FROM Tags WHERE Id=" + tt.TagId;
 
-                    SqlCeDataReader reader = cmd.ExecuteReader();
+                    SQLiteDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {

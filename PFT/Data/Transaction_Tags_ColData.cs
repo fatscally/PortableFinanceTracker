@@ -1,4 +1,5 @@
-﻿using System.Data.SqlServerCe;
+﻿//using System.Data.SQLite;
+using System.Data.SQLite;
 using PFT.Base;
 using PFT.Interfaces;
 
@@ -12,10 +13,12 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                //SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM Transaction_Tags";
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                //SQLiteDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -41,10 +44,10 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM Transaction_Tags WHERE TransactionId = " + transactionId;
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -70,10 +73,10 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM Transaction_Tags WHERE TagId = " + tagId;
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {

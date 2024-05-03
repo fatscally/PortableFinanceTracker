@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Data.SQLite;
 using PFT.Base;
 using PFT.Interfaces;
-using System.Data.SqlServerCe;
 
 namespace PFT.Data
 {
@@ -12,7 +8,24 @@ namespace PFT.Data
     {
 
 
+        public TransactionAutoRepeatCol LoadAutoInsertsToday()
+        {
 
+            try
+            {
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
+                cmd.CommandText = "SELECT * FROM TransactionAutoRepeat";
+
+                cmd.ExecuteReader();
+            }
+            catch
+            {
+                throw;
+            }
+
+            return null;
+
+        }
 
         public void Save(TransactionAutoRepeat transaction)
         {
@@ -27,7 +40,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT TOP(1) FROM TransactionAutoRepeat WHERE Id=" + transaction.Id.ToString();
 
                 cmd.ExecuteReader();
@@ -35,7 +48,7 @@ namespace PFT.Data
             finally
             {
                 //TODO Delete this and only close when the app exits
-                Globals.Instance.SqlCeConnection.LocalConnection().Close();
+                Globals.Instance.SQLiteConnection.LocalConnection().Close();
             }
 
             return null;
@@ -60,7 +73,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "DELETE FROM TransactionAutoRepeat WHERE Id = " + transaction.Id;
 
                 cmd.ExecuteNonQuery();

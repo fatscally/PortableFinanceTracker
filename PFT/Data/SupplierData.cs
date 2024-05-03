@@ -1,5 +1,5 @@
 ﻿using PFT.Base;
-using System.Data.SqlServerCe;
+using System.Data.SQLite;
 using PFT.Interfaces;
 using System;
 
@@ -12,8 +12,8 @@ namespace PFT.Data
             int supplierId = supplier.Id;
 
             //"If Exists" isn't used in SqlCe so I have to do a separate SELECT
-            if (supplierId <= 0)
-                supplierId = Select(supplier).Id;
+            //if (supplierId <= 0)
+            //    supplierId = Select(supplier).Id;
 
             //if it is still <=0 after the select then INSERT
             if (supplierId <= 0)
@@ -32,10 +32,10 @@ namespace PFT.Data
 
             //try
             //{
-            //    SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+            //    SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
             //    cmd.CommandText = "SELECT * FROM Suppliers WHERE Id=" + supplier.Id;
 
-            //    SqlCeDataReader reader = cmd.ExecuteReader();
+            //    SQLiteDataReader reader = cmd.ExecuteReader();
 
             //    while (reader.Read())
             //    {
@@ -60,10 +60,10 @@ namespace PFT.Data
             {
                 Supplier supplier = new Supplier();
 
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM Suppliers WHERE Id=" + supplierId;
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -87,7 +87,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "INSERT INTO Suppliers (Name, Description) Values('" + supplier.Name + "', '" + supplier.Description + "')";
 
                 cmd.ExecuteNonQuery();
@@ -102,7 +102,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "UPDATE Suppliers Set Name='" + supplier.Name + "', Description='" + supplier.Description + "'  WHERE Id = " + supplier.Id;
 
                 cmd.ExecuteNonQuery();
@@ -117,7 +117,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "DELETE FROM Suppliers WHERE Id = " + supplier.Id;
 
                 cmd.ExecuteNonQuery();
@@ -146,13 +146,14 @@ namespace PFT.Data
             if (isIncome)
                 strIsIncome = "1";
 
-
+            
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 strCmdText = "SELECT SUM(Price) AS TotalSpend FROM Transactions ";
-                strCmdText += "WHERE SupplierId = " + supplierId + " AND IsIncome = " + strIsIncome + " AND Date>= CONVERT(DATETIME, '" + startDate.ToString("yyyy/MM/dd") + " 00:00:00') AND Date<= CONVERT(DATETIME, '" + endDate.ToString("yyyy/MM/dd ") + "23:59:59')";
-
+                strCmdText += "WHERE SupplierId = " + supplierId + " AND IsIncome = " + strIsIncome;
+                strCmdText += " AND Date Between '" + startDate.ToString("yyyy-MM-dd") + " 00:00:00:001' AND '" + endDate.ToString("yyyy-MM-dd ") + "23:59:59'";
+                //Sqlite uses dashes "yyyy-MM-dd" not "yyyy/MM/dd"
                 cmd.CommandText = strCmdText;
                 object rtnVal = cmd.ExecuteScalar();
 

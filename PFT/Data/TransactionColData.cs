@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.SqlServerCe;
+using System.Data.SQLite;
 using PFT.Base;
 using PFT.Interfaces;
 
@@ -20,13 +20,14 @@ namespace PFT.Data
             string strCmdText;
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 strCmdText = "SELECT * FROM Transactions ";
-                strCmdText += "WHERE Date>= CONVERT(DATETIME, '" + startDate.ToString("yyyy/MM/dd") + " 00:00:00') AND Date<= CONVERT(DATETIME, '" + endDate.ToString("yyyy/MM/dd ") + "23:59:59')";
-                strCmdText += " ORDER BY Date DESC";
+                //strCmdText += "WHERE Date>= CONVERT(DATETIME, '" + startDate.ToString("yyyy/MM/dd") + " 00:00:00') AND Date<= CONVERT(DATETIME, '" + endDate.ToString("yyyy/MM/dd ") + "23:59:59')";
+                strCmdText += "WHERE [Date] Between '" + startDate.ToString("yyyy-MM-dd") + " 00:00:00:001' AND '" + endDate.ToString("yyyy-MM-dd") + " 23:59:59'";
+                strCmdText += " ORDER BY [Date] DESC";
 
                 cmd.CommandText = strCmdText;
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -90,9 +91,11 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 strCmdText = "SELECT SUM(Price) AS TotalSpend FROM Transactions ";
-                strCmdText += "WHERE IsIncome = " + strIsIncome + " AND Date>= CONVERT(DATETIME, '" + startDate.ToString("yyyy/MM/dd") + " 00:00:00') AND Date<= CONVERT(DATETIME, '" + endDate.ToString("yyyy/MM/dd ") + "23:59:59')";
+                strCmdText += "WHERE IsIncome = " + strIsIncome;
+                strCmdText += " AND Date>='" + startDate.ToString("yyyy-MM-dd") + " 00:00:00:000' AND '" + endDate.ToString("yyyy-MM-dd ") + "23:59:59'";
+
 
                 cmd.CommandText = strCmdText;
                 object rtnVal = cmd.ExecuteScalar();

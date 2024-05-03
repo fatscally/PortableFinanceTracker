@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.SqlServerCe;
+using System.Data.SQLite;
 using PFT.Base;
 using PFT.Interfaces;
 
@@ -32,10 +32,10 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM Settings WHERE [Key]='" + key + "'";
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -59,7 +59,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "INSERT INTO Settings ([Key], [Value]) Values('" + setting.Key + "', '" + setting.Value + "')";
 
                 cmd.ExecuteNonQuery();
@@ -75,7 +75,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "UPDATE Settings Set [Key]='" + setting.Key + "', [Value]='" + setting.Value + "'  WHERE [Key] = '" + setting.Key + "'";
 
                 cmd.ExecuteNonQuery();
@@ -91,7 +91,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "DELETE FROM Settings WHERE [Key] = '" + setting.Key + "'";
 
                 cmd.ExecuteNonQuery();

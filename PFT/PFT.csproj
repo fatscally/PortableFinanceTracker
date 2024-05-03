@@ -121,6 +121,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
+    <Compile Include="Data\ItemColData.cs" />
+    <Compile Include="Data\ItemData.cs" />
+    <Compile Include="Data\Items_Tags_Data.cs" />
+    <Compile Include="Data\PaymentTypeColData.cs" />
+    <Compile Include="Data\PaymentTypeData.cs" />
+    <Compile Include="Data\RepeatTypeColData.cs" />
+    <Compile Include="Data\SettingColData.cs" />
+    <Compile Include="Data\SettingData.cs" />
+    <Compile Include="Data\SupplierColData.cs" />
+    <Compile Include="Data\SupplierData.cs" />
+    <Compile Include="Data\TagColData.cs" />
+    <Compile Include="Data\TagData.cs" />
+    <Compile Include="Data\TransactionAutoRepeatColData.cs" />
+    <Compile Include="Data\TransactionAutoRepeatData.cs" />
+    <Compile Include="Data\TransactionColData.cs" />
+    <Compile Include="Data\TransactionData.cs" />
+    <Compile Include="Data\Transaction_Tags_ColData.cs" />
+    <Compile Include="Data\Transaction_Tags_Data.cs" />
     <Compile Include="HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
     </Compile>

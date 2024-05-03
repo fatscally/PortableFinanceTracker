@@ -1,5 +1,5 @@
 ﻿using PFT.Base;
-using System.Data.SqlServerCe;
+using System.Data.SQLite;
 using PFT.Interfaces;
 
 namespace PFT.Data
@@ -12,10 +12,10 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM RepeatTypes";
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {

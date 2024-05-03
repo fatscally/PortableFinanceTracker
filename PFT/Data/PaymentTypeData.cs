@@ -1,5 +1,5 @@
 ﻿using PFT.Base;
-using System.Data.SqlServerCe;
+using System.Data.SQLite;
 using PFT.Interfaces;
 using System;
 
@@ -11,8 +11,8 @@ namespace PFT.Data
         {
 
             //"If Exists" isn't used in SqlCe so I have to do a separate SELECT
-            if (paymentType.Id <= 0)
-                paymentType = Select(paymentType.Id);
+            //if (paymentType.Id <= 0)
+            //    paymentType = Select(paymentType.Id);
 
             //if it is still <=0 after the select then INSERT
             if (paymentType.Id <= 0)
@@ -36,10 +36,10 @@ namespace PFT.Data
             {
                 PaymentType paymentType = new PaymentType();
 
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM PaymentTypes WHERE Id=" + paymentTypeId;
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -62,7 +62,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "INSERT INTO PaymentTypes (Name, Description) Values('" + paymentType.Name + "', '" + paymentType.Description + "')";
 
                 cmd.ExecuteNonQuery();
@@ -77,7 +77,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "UPDATE PaymentTypes Set Name='" + paymentType.Name + "', Description='" + paymentType.Description + "'  WHERE Id = " + paymentType.Id;
 
                 cmd.ExecuteNonQuery();
@@ -92,7 +92,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "DELETE FROM PaymentTypes WHERE Id = " + paymentType.Id;
 
                 cmd.ExecuteNonQuery();
@@ -111,7 +111,7 @@ namespace PFT.Data
         /// <param name="endDate">End date of period to calculate</param>
         /// /// <param name="isIncome">True if calculating incomes</param>
         /// <returns>Sum of money spent </returns>
-        public double GetPaymentTypeSpendTotal(int paymentTypeId, DateTime startDate, DateTime endDate, bool isIncome)
+        public double GetPaymentTypeTotalSpend(int paymentTypeId, DateTime startDate, DateTime endDate, bool isIncome)
         {
             TransactionCol returnCol = new TransactionCol();
             string strCmdText;
@@ -124,9 +124,12 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 strCmdText = "SELECT SUM(Price) AS TotalSpend FROM Transactions ";
-                strCmdText += "WHERE PaymentTypeId = " + paymentTypeId + " AND IsIncome = " + strIsIncome + " AND Date>= CONVERT(DATETIME, '" + startDate.ToString("yyyy/MM/dd") + " 00:00:00') AND Date<= CONVERT(DATETIME, '" + endDate.ToString("yyyy/MM/dd ") + "23:59:59')";
+                strCmdText += "WHERE PaymentTypeId = " + paymentTypeId + " AND IsIncome = " + strIsIncome;
+                strCmdText += " AND Date Between '" + startDate.ToString("yyyy-MM-dd") + " 00:00:00:001' AND '" + endDate.ToString("yyyy-MM-dd ") + "23:59:59'";
+
+
 
                 cmd.CommandText = strCmdText;
                 object rtnVal = cmd.ExecuteScalar();

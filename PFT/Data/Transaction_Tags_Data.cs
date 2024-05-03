@@ -1,5 +1,5 @@
 ﻿using PFT.Interfaces;
-using System.Data.SqlServerCe;
+using System.Data.SQLite;
 using PFT.Base;
 
 namespace PFT.Data
@@ -19,10 +19,10 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM Transaction_Tags WHERE TransactionId=" + transactionTag.TransactionId + " AND TagId=" + transactionTag.TagId;
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -42,7 +42,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "INSERT INTO Transaction_Tags (TransactionId, TagId) Values('" + transactionTag.TransactionId+ "', '" + transactionTag.TagId + "')";
 
                 cmd.ExecuteNonQuery();
@@ -56,7 +56,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "DELETE FROM Transaction_Tags WHERE TransactionId=" + transactionTag.TransactionId + " AND TagId=" + transactionTag.TagId;
 
                 cmd.ExecuteNonQuery();
@@ -77,7 +77,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "DELETE FROM Transaction_Tags WHERE TransactionId=" + transactionId;
 
                 cmd.ExecuteNonQuery();

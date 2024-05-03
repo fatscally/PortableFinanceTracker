@@ -1,6 +1,6 @@
 ﻿using PFT.Interfaces;
 using PFT.Base;
-using System.Data.SqlServerCe;
+using System.Data.SQLite;
 
 namespace PFT.Data
 {
@@ -20,10 +20,10 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM ItemDefaultTags WHERE ItemId=" + itemsTags.ItemId + " AND TagId=" + itemsTags.TagId;
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -43,7 +43,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "INSERT INTO ItemDefaultTags (ItemId, TagId) Values('" + itemsTags.ItemId + "', '" + itemsTags.TagId + "')";
 
                 cmd.ExecuteNonQuery();
@@ -57,7 +57,7 @@ namespace PFT.Data
         {
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "DELETE FROM ItemDefaultTags WHERE ItemId=" + itemsTags.ItemId + " AND TagId=" + itemsTags.TagId;
 
                 cmd.ExecuteNonQuery();

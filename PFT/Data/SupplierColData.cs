@@ -1,7 +1,6 @@
-﻿using System;
+﻿using System.Data.SQLite;
 using PFT.Base;
 using PFT.Interfaces;
-using System.Data.SqlServerCe;
 
 namespace PFT.Data
 {
@@ -15,10 +14,10 @@ namespace PFT.Data
 
             try
             {
-                SqlCeCommand cmd = Globals.Instance.SqlCeConnection.LocalConnection().CreateCommand();
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "SELECT * FROM Suppliers";
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
+                SQLiteDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
