@@ -3,7 +3,7 @@ using System;
 
 namespace PFT.Interfaces
 {
-    interface ISupplierData
+    public interface ISupplierData
     {
         void Save(Supplier supplier);
         void Delete(Supplier supplier);

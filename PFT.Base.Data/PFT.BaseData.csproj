@@ -71,25 +71,6 @@
     <Compile Include="Globals.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\ITransactionAutoRepeatColData.cs" />
-    <Compile Include="Interfaces\IItemColData.cs" />
-    <Compile Include="Interfaces\IItemData.cs" />
-    <Compile Include="Interfaces\IItems_Tags_ColData.cs" />
-    <Compile Include="Interfaces\IItems_Tags_Data.cs" />
-    <Compile Include="Interfaces\IPaymentTypeColData.cs" />
-    <Compile Include="Interfaces\IPaymentTypeData.cs" />
-    <Compile Include="Interfaces\IRepeatTypes.cs" />
-    <Compile Include="Interfaces\ISettingColData.cs" />
-    <Compile Include="Interfaces\ISettingData.cs" />
-    <Compile Include="Interfaces\ISupplierColData.cs" />
-    <Compile Include="Interfaces\ISupplierData.cs" />
-    <Compile Include="Interfaces\ITagColData.cs" />
-    <Compile Include="Interfaces\ITagData.cs" />
-    <Compile Include="Interfaces\ITransactionAutoRepeat.cs" />
-    <Compile Include="Interfaces\ITransactionColData.cs" />
-    <Compile Include="Interfaces\ITransactionData.cs" />
-    <Compile Include="Interfaces\ITransaction_Tags_ColData.cs" />
-    <Compile Include="Interfaces\ITransaction_Tags_Data.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\RepeatTypeColData.cs" />
     <Compile Include="Data\SettingColData.cs" />

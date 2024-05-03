@@ -2,7 +2,7 @@
 
 namespace PFT.Interfaces
 {
-    interface IPaymentTypeColData
+    public interface IPaymentTypeColData
     {
         PaymentTypeCol LoadAll();
     }

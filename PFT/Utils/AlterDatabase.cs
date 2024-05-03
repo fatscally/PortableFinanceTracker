@@ -1,218 +1,168 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-//using System.Data.SqlServerCe;
 using System.Data.SQLite;
 using System.IO;
-using System.Windows;
 
 
-namespace PFT.Utils
+namespace PFT.Data
 {
-
     public class SQLiteUtilities
-    {
-        #region "Table definitions"
-
-        internal void CreateTransactionsTable()
-        {
-            createTable("create table TransactionLite ("
-              + "Id int PRIMARY KEY, "
-              + "ItemId int NOT NULL, "
-              + "Price money NOT NULL, "
-              + "PaymentTypeId int NULL, "
-              + "[IsIncome] bit NULL, "
-              + "Comment nvarchar (255) NULL, "
-              + "SupplierId int NULL, "
-              + "InsertType char (1) NULL, "
-              + "Date datetime NOT NULL, "
-              + "PRIMARY KEY(Id) )");            
-        }
-
-
-        #endregion
-
-
-        private void createTable(string sql)
-        {
-
-            PFT.Data.Connection conn = new PFT.Data.Connection();
-            SQLiteCommand cmd;
-            
-
-            try
-            {
-                cmd = new SQLiteCommand(sql, conn.LocalConnection());
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Table Created", "Table Created");
-            }
-            catch (SQLiteException sqlexception)
-            {
-                MessageBox.Show(sqlexception.Message, "SqlCeException");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Exception in createTable");
-            }
-            finally
-            {
-                conn.LocalConnection().Close();
-            }
-        }
-
-
-    }
-
-
-    public class SqlCeUtilities
     {
 
 
 #region "Table definitions"
-
-        internal void CreateTransactionsTable()
+        //START OK FOR SQLITE
+        public void CreateTransactionsTable(bool dropTable)
         {
-            dropTable("Transactions");
-            
-            createTable("create table Transaction ("
-              + "Id int NOT NULL IDENTITY(1,1) UNIQUE, "
-              + "ItemId int NOT NULL, "
-              + "Price money NOT NULL, "
-              + "PaymentTypeId int NULL, "
-              + "[IsIncome] bit NULL, "
-              + "Comment nvarchar (255) NULL, "
-              + "SupplierId int NULL, "
-              + "InsertType nchar (1) NOT NULL, "
-              + "Date datetime NOT NULL, "
-              + "PRIMARY KEY(Id) )");
+            if (dropTable)
+                this.dropTable("Transactions");
+
+            createTable("CREATE TABLE IF NOT EXISTS Transactions ("
+              + "Id INTEGER PRIMARY KEY, "
+              + "ItemId INTEGER NOT NULL, "
+              + "Price REAL NOT NULL, "
+              + "PaymentTypeId INTEGER NULL, "
+              + "IsIncome INTEGER NULL, "
+              + "Comment TEXT NULL, "
+              + "SupplierId INTEGER NULL, "
+              + "InsertType TEXT NULL, "
+              + "Date datetime NOT NULL,"
+              + "ReqdSpend INTEGER NULL)");   
          }
 
-        internal void CreateTransactionAutoRepeatTable()
+        public void CreateTransactionAutoRepeatTable(bool dropTable)
         {
-            dropTable("TransactionAutoRepeat");
+            if (dropTable)
+                this.dropTable("TransactionAutoRepeat");
 
-            createTable("create table TransactionAutoRepeat ("
-              + "Id int NOT NULL IDENTITY(1,1) UNIQUE, "
-              + "ItemId int NOT NULL, "
-              + "Price money NOT NULL, "
-              + "Comment nvarchar (255) NULL, "
-              + "SupplierId int NULL, "
-              + "RepeatTypeId int NULL, "
-              + "RepeatDay int NULL, "
-              + "LastDateInserted datetime NULL, "
-              + "PRIMARY KEY(Id) )");
+            createTable("CREATE TABLE IF NOT EXISTS TransactionAutoRepeat ("
+              + "Id INTEGER PRIMARY KEY, "
+              + "ItemId INTEGER NOT NULL, "
+              + "Price REAL NOT NULL, "
+              + "Comment TEXT NULL, "
+              + "SupplierId INTEGER NULL, "
+              + "RepeatTypeId INTEGER NULL, "
+              + "RepeatDay INTEGER NULL)");
         }
 
-        internal void CreateItemsTable()
+        public void CreateItemsTable(bool dropTable)
         {
-            dropTable("Items");
 
-            createTable("create table Items ("
-              + "Id int NOT NULL IDENTITY(1,1) UNIQUE, "
-              + "[Name] nvarchar(50) NOT NULL, "
-              + "[Description] nvarchar(255) NULL, "
-              + "[DefaultPrice] money NULL, "
-              + "[Budget] money NULL, "
-              + "[JustWantIt] bit NULL, "
-              + "[IsIncome] bit NULL, "
-              + "PRIMARY KEY(Id) )");
+            if (dropTable)
+                this.dropTable("Items");
+
+            createTable("CREATE TABLE IF NOT EXISTS Items ("
+              + "Id INTEGER PRIMARY KEY, "
+              + "[Name] TEXT NOT NULL, "
+              + "[Description] TEXT NULL, "
+              + "[DefaultPrice] REAL NULL, "
+              + "[Budget] REAL NULL, "
+              + "[NeedIt] INTEGER NULL, "
+              + "[IsIncome] INTEGER NULL, "
+              + "[Hits] INTEGER NULL)");  //Number of times this row was used.
         }
 
-        internal void CreateTagsTable()
+        public void CreateTagsTable(bool dropTable)
         {
-            dropTable("Tags");
+            if (dropTable)
+                this.dropTable("Tags");
 
-            createTable("create table Tags ("
-              + "Id int NOT NULL IDENTITY(1,1) UNIQUE, "
-              + "[Name] nvarchar(50) NOT NULL, "
-              + "[Description] nvarchar(255) NULL, "
-              + "[ParentTagId] int NOT NULL DEFAULT -1, "
-              + "PRIMARY KEY(Id) )");
+            createTable("CREATE TABLE IF NOT EXISTS Tags ("
+              + "Id INTEGER PRIMARY KEY, "
+              + "[Name] TEXT NOT NULL, "
+              + "[Description] TEXT NULL, "
+              + "[Budget] REAL NULL, "
+              + "[ParentTagId] INTEGER NOT NULL DEFAULT -1, "
+              + "[Hits] INTEGER NULL, "
+              + "[SystemLockedRow] INTEGER NULL )");  //these rows are hard coded metadata.
         }
 
-        internal void CreateSuppliersTable()
+        public void CreateSuppliersTable(bool dropTable)
         {
-            dropTable("Suppliers");
+            if (dropTable)
+                this.dropTable("Suppliers");
 
-            createTable("create table Suppliers ("
-              + "Id int NOT NULL IDENTITY(1,1) UNIQUE, "
-              + "[Name] nvarchar(50) NOT NULL, "
-              + "[Description] nvarchar(255) NULL, "
-              + "PRIMARY KEY(Id) )");
+            createTable("CREATE TABLE IF NOT EXISTS Suppliers ("
+              + "Id INTEGER PRIMARY KEY, "
+              + "[Name] TEXT NOT NULL, "
+              + "[Description] TEXT NULL,"
+              + "[Hits] INTEGER NULL )");
         }
 
-        internal void CreatePaymentTypesTable()
+        public void CreatePaymentTypesTable(bool dropTable)
         {
-            dropTable("PaymentTypes");
+            if (dropTable)
+                this.dropTable("PaymentTypes");
 
-            createTable("create table PaymentTypes ("
-              + "Id int NOT NULL IDENTITY(1,1) UNIQUE, "
-              + "[Name] nvarchar(50) NOT NULL, "
-              + "[Description] nvarchar(255) NULL, "
-              + "PRIMARY KEY(Id) )");
+            createTable("CREATE TABLE IF NOT EXISTS PaymentTypes ("
+              + "Id INTEGER PRIMARY KEY, "
+              + "[Name] TEXT NOT NULL, "
+              + "[Description] TEXT NULL, "
+              + "[Hits] INTEGER NULL )");
         }
 
-        internal void CreateTransaction_TagsTable()
+        public void CreateTransaction_TagsTable()
         {
-            dropTable("Transaction_Tags");
-
-            createTable("create table Transaction_Tags ("
-              + "TransactionId int NOT NULL, "
-              + "[TagId] int NOT NULL)");
+            createTable("CREATE TABLE IF NOT EXISTS Transaction_Tags ("
+              + "TransactionId INTEGER NOT NULL, "
+              + "[TagId] INTEGER NOT NULL)");
         }
 
-        internal void CreateSettingsTable()
+        public void CreateSettingsTable(bool dropTable)
         {
-            dropTable("Settings");
+            if (dropTable)
+                this.dropTable("Settings");
 
-            createTable("create table Settings ("
-              + "Id int NOT NULL IDENTITY(1,1) UNIQUE, "
-              + "[Key] nvarchar(50) NOT NULL, "
-              + "[Value] nvarchar(100) NULL, "
-              + "PRIMARY KEY(Id) )");
+            createTable("CREATE TABLE IF NOT EXISTS Settings ("
+              + "Id INTEGER PRIMARY KEY, "
+              + "[Key] TEXT NOT NULL, "
+              + "[Value] TEXT NULL )");
         }
 
-        internal void CreateItemDefaultTagsTable()
+        public void CreateItemDefaultTagsTable(bool dropTable)
         {
-            dropTable("ItemDefaultTags");
+            if (dropTable)
+                this.dropTable("ItemDefaultTags");
 
-            createTable("create table ItemDefaultTags ("
-              + "ItemId int NOT NULL, "
-              + "TagId int NOT NULL"
+            createTable("CREATE TABLE IF NOT EXISTS ItemDefaultTags ("
+              + "ItemId INTEGER NOT NULL, "
+              + "TagId INTEGER NOT NULL"
               + " )");
         }
 
-        internal void CreateItemDefaultPaymentTypeTable()
+        public void CreateItemDefaultPaymentTypeTable(bool dropTable)
         {
-            dropTable("ItemDefaultPaymentType");
+            if (dropTable)
+                this.dropTable("ItemDefaultPaymentType");
 
             createTable("create table ItemDefaultPaymentType ("
-              + "ItemId int NOT NULL, "
-              + "PaymentTypeId int NOT NULL"
+              + "ItemId INTEGER NOT NULL, "
+              + "PaymentTypeId INTEGER NOT NULL"
               + " )");
         }
 
-        internal void CreateRepeatTypesTable()
+        public void CreateRepeatTypesTable(bool dropTable)
         {
-            dropTable("RepeatTypes");
+            if (dropTable)
+                this.dropTable("RepeatTypes");
 
             createTable("create table RepeatTypes ("
-              + "Id int NOT NULL IDENTITY(1,1) UNIQUE, "
-              + "[Name] nvarchar(50) NOT NULL, "
-              + "PRIMARY KEY(Id) )");
+              + "Id INTEGER PRIMARY KEY, "
+              + "[Name] TEXT NOT NULL)");
         }
 
-        internal void CreateDateRanges()
+        public void CreateDateRanges(bool dropTable)
         {
-            dropTable("DateRanges");
+            if (dropTable)
+                this.dropTable("DateRanges");
 
-            createTable("create table DateRanges ("
-              + "Id int NOT NULL IDENTITY(1,1) UNIQUE, "
-              + "[Name] nvarchar(20) NOT NULL, "
-              + "[Description] nvarchar(255) NULL, "
-              + "PRIMARY KEY(Id) )");
+            createTable("CREATE TABLE IF NOT EXISTS DateRanges ("
+              + "Id INTEGER PRIMARY KEY, "
+              + "[Name] TEXT NOT NULL, "
+              + "[Description] TEXT NULL )");
         }
-
+        //END OK FOR SQLITE  didn't go past here.
 
         /// <summary>
         /// How many times an item was bought at a supplier
@@ -222,9 +172,9 @@ namespace PFT.Utils
             dropTable("ItemSupplierMatchCount");
 
             createTable("create table ItemSupplierMatchCount ("
-              + "ItemId int NOT NULL, "
-              + "SupplierId int NOT NULL, "
-              + "PurchaseCount int NOT NULL)");
+              + "ItemId INTEGER NOT NULL, "
+              + "SupplierId INTEGER NOT NULL, "
+              + "PurchaseCount INTEGER NOT NULL)");
         }
 
 
@@ -249,14 +199,13 @@ namespace PFT.Utils
         /// <summary>
         /// Insert payment repeat types into RepeatTypes table
         /// </summary>
-        internal void InsertRepeatTypesRows()
+        public void InsertRepeatTypesRows()
         {
             try
             {
                 SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
                 cmd.CommandText = "INSERT INTO RepeatTypes (Name) Values('Weekly')";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "INSERT INTO RepeatTypes (Name) Values('Monthly')";
+                cmd.CommandText += ", ('Monthly')";
                 cmd.ExecuteNonQuery();
             }
             catch
@@ -269,19 +218,146 @@ namespace PFT.Utils
         /// <summary>
         /// Insert payment types Metadata into PaymentTypes table
         /// </summary>
-        internal void InsertPaymentTypesRows()
+        public void InsertPaymentTypesRows()
         {
             try
             {
                 SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
-                cmd.CommandText = "INSERT INTO PaymentTypes (Name), (Description) Values('Cash','Cash money')";
+                cmd.CommandText = "INSERT INTO RepeatTypes (Name), (Description) Values('Cash','Cash money')";
                 cmd.ExecuteNonQuery();
-                cmd.CommandText = "INSERT INTO PaymentTypes (Name), (Description) Values('Credit Card','Credit Card')";
+                cmd.CommandText = "INSERT INTO RepeatTypes (Name), (Description) Values('Credit Card','Credit Card')";
                 cmd.ExecuteNonQuery();
-                cmd.CommandText = "INSERT INTO PaymentTypes (Name), (Description) Values('Direct Debit','Direct Debit')";
+                cmd.CommandText = "INSERT INTO RepeatTypes (Name), (Description) Values('Direct Debit','Direct Debit')";
                 cmd.ExecuteNonQuery();
-                cmd.CommandText = "INSERT INTO PaymentTypes (Name), (Description) Values('Cheque','Cheque')";
+                cmd.CommandText = "INSERT INTO RepeatTypes (Name), (Description) Values('Cheque','Cheque')";
                 cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Insert Date Ranges for searching into DateRanges table
+        /// </summary>
+        public void Insert_Tags_Rows()
+        {
+            try
+            {
+                SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
+
+                cmd.CommandText = "INSERT INTO Tags (Id, Name, Description, Budget, ParentTagId, Hits, SystemLockedRow ) Values";
+                cmd.CommandText += "  (1, 'Home & Utilities','Running the home', 0, 0, 0, 1)";
+                cmd.CommandText += ", (2, 'Food','Everything you eat', 0, 0, 0, 1)";
+                cmd.CommandText += ", (3, 'Transport','Everything Transport related', 0, 0, 0, 1)";  //2
+                cmd.CommandText += ", (4, 'Personal','Spent just on you', 0, 0, 0, 1)"; //3
+                cmd.CommandText += ", (5, 'Children','Everything for the children', 0, 0, 0, 1)"; //4
+                cmd.CommandText += ", (6, 'Health','Doctors, dentist, medicines...', 0, 0, 0, 1)"; //4
+                cmd.CommandText += ", (7, 'Entertainment','Cinema, socialising etc', 0, 0, 0, 1)"; //4
+                
+
+                // 1 Utilities Essential
+                cmd.CommandText += ", (null, 'Mortgage or Rent','Payments for your home', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Electricity','Electricity for your home', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Gas','Gas for your home', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Heating Oil','Home heating oil', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Water','Water for your home', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Refuse','Refuse collection service for your home', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Home Taxes','Property or council tax etc', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Home Insurance','Home & Contents insurance', 0, 1, 0, 1)";
+                //Utilities non-Essential
+                cmd.CommandText += ", (null, 'Cable TV','Television services', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Internet','Internet services', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Land Line Phone','Telephone services', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Credit Card Interest','Credit card fees and interest', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Banking Fees','Credit card fees and interest', 0, 1, 0, 1)";
+                
+                //Home and Garden
+                cmd.CommandText += ", (null, 'Furniture','Beds, tables, chairs...', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Appliances','Cookers, refridgerator...', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Fixings','Bath, sink, door bell...', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Maintenance','Repairs', 0, 1, 0, 1)";
+                cmd.CommandText += ", (null, 'Gardening','Flowers, shrubs, plant food', 0, 1, 0, 1)";
+
+                
+
+                // 2 Food
+                cmd.CommandText += ", (null, 'Groceries','Food for your fridge and cupboard', 0, 2, 0, 1)";
+                cmd.CommandText += ", (null, 'Food at work','Food bought at work', 0, 2, 0, 1)";
+                cmd.CommandText += ", (null, 'Restaurant','Dining out', 0, 2, 0, 1)";
+                cmd.CommandText += ", (null, 'Fast food & Take out','Fast food & Take out food', 0, 2, 0, 1)";
+                cmd.CommandText += ", (null, 'Coffee n beverages','Your favourite cuppa', 0, 2, 0, 1)";
+                cmd.CommandText += ", (null, 'Snacks','Your favourite cuppa', 0, 2, 0, 1)";
+                //cmd.CommandText += ", (null, 'Coffee','Take out coffees', 0, 2, 0, 1)";
+
+
+                // 3 Transport
+                cmd.CommandText += ", (null, 'Car Fuel','Petrol, diesel, gasoline...', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Car Repayments','Car Insurance', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Car Insurance','Car Insurance', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Car Tax','Car Insurance', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Fines','Penalties & Fines', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Road Tolls','', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Car Parks','', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Car Repair & Maintenance','Oil, tyres, road worthy certification', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Car accessories','Air freshener, alloy wheels...', 0, 3, 0, 1)";
+
+                cmd.CommandText += ", (null, 'Travel Card','Leap card, Oyster card, Metro card...', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Bicycle','Bicycle & Accessories', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Bus','Bus Fares', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Tram','', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Train','', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Metro','', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Flights','', 0, 3, 0, 1)";
+                cmd.CommandText += ", (null, 'Ferries','', 0, 3, 0, 1)";
+
+                // 4 Personal
+                cmd.CommandText += ", (null, 'Hair care','Hair dresser, barber, products', 0, 4, 0, 1)";
+                cmd.CommandText += ", (null, 'Nails','Manicure, pedicure', 0, 4, 0, 1)";
+                cmd.CommandText += ", (null, 'Clothes','Shirts, shoes, dresses...', 0, 4, 0, 1)";
+                cmd.CommandText += ", (null, 'Education','Books, training classes', 0, 4, 0, 1)";
+                cmd.CommandText += ", (null, 'Sport personal','Club memberships, equipment and clothing.', 0, 4, 0, 1)";
+                cmd.CommandText += ", (null, 'Magazines & News','Newspapers, magazines', 0, 4, 0, 1)";
+                cmd.CommandText += ", (null, 'Tech','Tech toys; iPads, watches', 0, 4, 0, 1)";
+                cmd.CommandText += ", (null, 'Jewellry','bling bling', 0, 4, 0, 1)";
+                
+                cmd.CommandText += ", (null, 'Gifts','Presents & celebrations', 0, 4, 0, 1)";
+                cmd.CommandText += ", (null, 'Charities','Shirts, shoes, dresses...', 0, 4, 0, 1)";
+                cmd.CommandText += ", (null, 'Clothes','Shirts, shoes, dresses...', 0, 4, 0, 1)";
+                cmd.CommandText += ", (null, 'Clothes','Shirts, shoes, dresses...', 0, 4, 0, 1)";
+
+
+                // 5 Children
+                cmd.CommandText += ", (null, 'Clothes','Shirts, shoes, dresses...', 0, 5, 0, 1)";
+                cmd.CommandText += ", (null, 'Toys','', 0, 5, 0, 1)";
+                cmd.CommandText += ", (null, 'Child Support','Child maintenance payments', 0, 5, 0, 1)";
+                cmd.CommandText += ", (null, 'Child care','Créche, Kintergarten, Play school', 0, 5, 0, 1)";
+                cmd.CommandText += ", (null, 'School costs','Fees, uniforms, excursions', 0, 5, 0, 1)";
+                cmd.CommandText += ", (null, 'Baby sitting','', 0, 5, 0, 1)";
+                cmd.CommandText += ", (null, 'Pocket Money','', 0, 5, 0, 1)";
+                cmd.CommandText += ", (null, 'Sport & Extra Curriulum','Extra curriculum classes', 0, 5, 0, 1)";
+                cmd.CommandText += ", (null, 'Baby furniture','Baths, changing tables', 0, 5, 0, 1)";
+
+
+                // 6 Health
+                cmd.CommandText += ", (null, 'Doctor','GP', 0, 6, 0, 1)";
+                cmd.CommandText += ", (null, 'Medicines','Pills, ointments, sprays', 0, 6, 0, 1)";
+                cmd.CommandText += ", (null, 'Dentist','', 0, 6, 0, 1)";
+                cmd.CommandText += ", (null, 'Physio','', 0, 6, 0, 1)";
+                cmd.CommandText += ", (null, 'Hospital','', 0, 6, 0, 1)";
+
+                // 7 Entertainment & Social
+                cmd.CommandText += ", (null, 'Cinema','Lotto, scratch cards, betting', 0, 7, 0, 1)";
+                cmd.CommandText += ", (null, 'Movie Rentals','', 0, 7, 0, 1)";
+                cmd.CommandText += ", (null, 'Concerts & Shows','', 0, 7, 0, 1)";
+                cmd.CommandText += ", (null, 'Alcohol & Socialising','Pubs, clubs & wine', 0, 7, 0, 1)";
+                cmd.CommandText += ", (null, 'Gambling','Lotto, scratch cards, betting', 0, 7, 0, 1)";
+
+                cmd.ExecuteNonQuery();
+
             }
             catch
             {
@@ -293,23 +369,20 @@ namespace PFT.Utils
         /// <summary>
         /// Insert Date Ranges for searching into DateRanges table
         /// </summary>
-        internal void InsertDateRangesRows()
+        public void Insert_DateRanges_Rows()
         {
             try
             {
                 SQLiteCommand cmd = Globals.Instance.SQLiteConnection.LocalConnection().CreateCommand();
-                cmd.CommandText = "INSERT INTO DateRanges (Name), (Description) Values('Today','Today')";
+
+                cmd.CommandText = "INSERT INTO DateRanges (Name, Description) Values('Today','Today')";
+                cmd.CommandText += ", ('Since Monday','Since Monday')";
+                cmd.CommandText += ", ('Last 7 Days','Last 7 Days')";
+                cmd.CommandText += ", ('This Month','This Month')";
+                cmd.CommandText += ", ('Last 28 Days','Last 28 Days')";
+                cmd.CommandText += ", ('This Year','This Year')";
                 cmd.ExecuteNonQuery();
-                cmd.CommandText = "INSERT INTO DateRanges (Name), (Description) Values('SinceMonday','Since Monday')";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "INSERT INTO DateRanges (Name), (Description) Values('Last7Days','Last 7 Days')";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "INSERT INTO DateRanges (Name), (Description) Values('ThisMonth','This Month')";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "INSERT INTO DateRanges (Name), (Description) Values('Last28Days','Last 28 Days')";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "INSERT INTO DateRanges (Name), (Description) Values('ThisYear','This Year')";
-                cmd.ExecuteNonQuery();
+                
             }
             catch
             {
@@ -324,9 +397,9 @@ namespace PFT.Utils
 
 
 
-        private void createTable(string sql)
+        private string createTable(string sql)
         {
-
+            //OK for SQLite
             PFT.Data.Connection conn = new PFT.Data.Connection();
             SQLiteCommand cmd;
             
@@ -335,15 +408,15 @@ namespace PFT.Utils
             {
                 cmd = new SQLiteCommand(sql, conn.LocalConnection());
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Table Created", "Table Created");
+                return "Table Created";
             }
             catch (SQLiteException sqlexception)
             {
-                MessageBox.Show(sqlexception.Message, "SqlCeException");
-            }
+                return sqlexception.Message;
+            } 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Exception in createTable");
+                return ex.Message;
             }
             finally
             {
@@ -351,39 +424,40 @@ namespace PFT.Utils
             }
         }
 
-        private void dropTable(string tableName)
+        private string dropTable(string tableName)
         {
             PFT.Data.Connection conn = new PFT.Data.Connection();
             SQLiteCommand cmd;
 
             using (SQLiteConnection exConnection = conn.LocalConnection())
             {
-                if (exConnection.TableExists(tableName))
-                {
+                //if (exConnection.TableExists(tableName))
+                //{
                     try
                     {
                         //cmd = new SQLiteCommand(sql, conn.LocalConnection());
-                        string sql = "drop table " + tableName;
+                        string sql = "DROP TABLE " + tableName;
                         cmd = new SQLiteCommand(sql, conn.LocalConnection());
                         cmd.ExecuteNonQuery();
-                        Console.WriteLine(tableName + " Table dropped.");
+                        return tableName + " dropped.";
                     }
                     catch (SQLiteException sqlexception)
                     {
-                        MessageBox.Show(sqlexception.Message, "Drop table error");
+                        return sqlexception.Message;
                     }
-                }
+                //}
+                //return "No connection to database found.";
             }
         }
 
 
-
-        internal void UpgradeDatabase()
-        {
-            string filename = @"C:\Documents and Settings\RBRENNAN\My Documents\visual studio 2010\Projects\PFT\PFT\PTF.sdf";
-            var engine = new System.Data.SqlServerCe.SqlCeEngine("Data Source=" + filename);
-            engine.EnsureVersion40(filename);
-        }
+        //Upgrades SQLCE database to version 4.0
+        //public void UpgradeCEDatabase()
+        //{
+        //    string filename = @"C:\Documents and Settings\RBRENNAN\My Documents\visual studio 2010\Projects\PFT\PFT\PTF.sdf";
+        //    var engine = new System.Data.SqlServerCe.SqlCeEngine("Data Source=" + filename);
+        //    engine.EnsureVersion40(filename);
+        //}
 
     }
 
@@ -413,63 +487,63 @@ namespace PFT.Utils
     }
     
 
-    public static class SqlCeUpgrade
-    {
-        public static void EnsureVersion40(this System.Data.SqlServerCe.SqlCeEngine engine, string filename)
-        {
-            SQLCEVersion fileversion = DetermineVersion(filename);
-            if (fileversion == SQLCEVersion.SQLCE20)
-                throw new ApplicationException("Unable to upgrade from 2.0 to 4.0");
+    //public static class SqlCeUpgrade
+    //{
+    //    public static void EnsureVersion40(this System.Data.SqlServerCe.SqlCeEngine engine, string filename)
+    //    {
+    //        SQLCEVersion fileversion = DetermineVersion(filename);
+    //        if (fileversion == SQLCEVersion.SQLCE20)
+    //            throw new ApplicationException("Unable to upgrade from 2.0 to 4.0");
 
-            if (SQLCEVersion.SQLCE40 > fileversion)
-            {
-                engine.Upgrade();
-            }
-        }
-        private enum SQLCEVersion
-        {
-            SQLCE20 = 0,
-            SQLCE30 = 1,
-            SQLCE35 = 2,
-            SQLCE40 = 3
-        }
-        private static SQLCEVersion DetermineVersion(string filename)
-        {
-            var versionDictionary = new Dictionary<int, SQLCEVersion> 
-        { 
-            { 0x73616261, SQLCEVersion.SQLCE20 }, 
-            { 0x002dd714, SQLCEVersion.SQLCE30},
-            { 0x00357b9d, SQLCEVersion.SQLCE35},
-            { 0x003d0900, SQLCEVersion.SQLCE40}
-        };
-            int versionLONGWORD = 0;
-            try
-            {
-                using (var fs = new FileStream(filename, FileMode.Open))
-                {
-                    fs.Seek(16, SeekOrigin.Begin);
-                    using (BinaryReader reader = new BinaryReader(fs))
-                    {
-                        versionLONGWORD = reader.ReadInt32();
-                    }
-                }
-            }
-            catch
-            {
-                throw;
-            }
-            if (versionDictionary.ContainsKey(versionLONGWORD))
-            {
-                return versionDictionary[versionLONGWORD];
-            }
-            else
-            {
-                throw new ApplicationException("Unable to determine database file version");
-            }
-        }
+    //        if (SQLCEVersion.SQLCE40 > fileversion)
+    //        {
+    //            engine.Upgrade();
+    //        }
+    //    }
+    //    private enum SQLCEVersion
+    //    {
+    //        SQLCE20 = 0,
+    //        SQLCE30 = 1,
+    //        SQLCE35 = 2,
+    //        SQLCE40 = 3
+    //    }
+    //    private static SQLCEVersion DetermineVersion(string filename)
+    //    {
+    //        var versionDictionary = new Dictionary<int, SQLCEVersion> 
+    //    { 
+    //        { 0x73616261, SQLCEVersion.SQLCE20 }, 
+    //        { 0x002dd714, SQLCEVersion.SQLCE30},
+    //        { 0x00357b9d, SQLCEVersion.SQLCE35},
+    //        { 0x003d0900, SQLCEVersion.SQLCE40}
+    //    };
+    //        int versionLONGWORD = 0;
+    //        try
+    //        {
+    //            using (var fs = new FileStream(filename, FileMode.Open))
+    //            {
+    //                fs.Seek(16, SeekOrigin.Begin);
+    //                using (BinaryReader reader = new BinaryReader(fs))
+    //                {
+    //                    versionLONGWORD = reader.ReadInt32();
+    //                }
+    //            }
+    //        }
+    //        catch
+    //        {
+    //            throw;
+    //        }
+    //        if (versionDictionary.ContainsKey(versionLONGWORD))
+    //        {
+    //            return versionDictionary[versionLONGWORD];
+    //        }
+    //        else
+    //        {
+    //            throw new ApplicationException("Unable to determine database file version");
+    //        }
+    //    }
 
 
-    }
+    //}
 
 
 

@@ -2,7 +2,7 @@
 
 namespace PFT.Interfaces
 {
-    interface ISupplierColData
+    public interface ISupplierColData
     {
         SupplierCol LoadAll();
     }

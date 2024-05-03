@@ -6,7 +6,7 @@ using PFT.Base;
 
 namespace PFT.Interfaces
 {
-    interface IItemColData
+    public interface IItemColData
     {
         ItemCol LoadAll();
     }

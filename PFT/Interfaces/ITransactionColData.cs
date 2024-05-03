@@ -3,7 +3,7 @@ using System;
 
 namespace PFT.Interfaces
 {
-    interface ITransactionColData
+    public interface ITransactionColData
     {
         TransactionCol LoadAll(DateTime startDate, DateTime endDate);
         double GetTransactionBalance(DateTime startDate, DateTime endDate, bool isIncome);

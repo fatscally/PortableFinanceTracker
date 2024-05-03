@@ -2,7 +2,7 @@
 
 namespace PFT.Interfaces
 {
-    interface ISettingData
+    public interface ISettingData
     {
         void Save(Setting setting);
         void Update(Setting setting);

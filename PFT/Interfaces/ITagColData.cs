@@ -2,7 +2,7 @@
 
 namespace PFT.Interfaces
 {
-    interface ITagColData
+    public interface ITagColData
     {
         TagCol LoadAll();
         TagCol LoadWithTagsByTransactionId(int transactionId);

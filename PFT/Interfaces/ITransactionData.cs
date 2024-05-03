@@ -3,7 +3,7 @@ using System;
 
 namespace PFT.Interfaces
 {
-    interface ITransactionData
+    public interface ITransactionData
     {
         void Save(Transaction transaction);
         void Delete(Transaction transaction);
